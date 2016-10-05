@@ -1,0 +1,293 @@
+{% extends 'profile/profile_detail.html' %}{% load humanize lookup staticfiles %}
+
+{% block head_meta_description %}Population data and election figures from {{ geography.this.short_name}}, broken down by category: Demographics, Service delivery, Economics and Education.{% endblock %}
+
+{% block profile_header_population %}
+<span class="value">{{ demographics.youth_population_total.values.this|floatformat:"0" }}</span>
+<span class="name">Youth aged 15-24 population</span>
+{% endblock %}
+
+{% block profile_header_density %}
+<span class="value">{{ demographics.population_density.values.this|floatformat:"1" }}</span>
+<span class="name"> youth per square kilometre</span>
+{% endblock %}
+
+{% block profile_header_tail %}
+<div class="column-full">
+    <p class="caption">
+        <strong>Census data:</strong> 2011
+        <br>
+        <strong>SAPS data:</strong> 2006-2015
+    </p>
+</div>
+{% endblock %}
+
+{% block profile_detail %}
+
+<article id="demographics" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth demographics</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#population" id="population">Population<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_population stat_type='number' %}
+            </div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.youth_population_total stat_type='number' %}
+            </div>
+            <div class="column-half" id="chart-histogram-demographics-youth_population_by_year" data-stat-type="scaled-percentage" data-chart-title="Youth population by age"></div>
+        </section>
+        <section class="clearfix stat-ro grouped-roww">
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.youth_population_perc stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-demographics-youth_population_by_pop_group" data-stat-type="scaled-percentage" data-chart-title="Youth population by race"></div>
+            <div class="column-quarter" id="chart-pie-demographics-youth_population_by_gender" data-stat-type="percentage" data-chart-title="Youth population by gender"></div>
+        </section>
+    </div>
+</article>
+
+<article id="education" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth education</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#progress_school" id="progress_school">Progress through school<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=education.youth_perc_completed_grade9 stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-pie-education-youth_completed_grade9" data-stat-type="percentage" data-chart-title="Youth aged 16-17 by grade 9 completion"></div>
+            <div class="column-quarter" id="chart-histogram-education-youth_completed_grade9_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth aged 16-17 who completed grade 9 by gender"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#education_levels" id="education_levels">Highest educational level<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=education.youth_perc_matric stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-education-youth_education_level" data-stat-type="scaled-percentage" data-chart-title="Youth aged 20-24 by highest educational level"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#education_attendance" id="education_attendance">Educational attendance<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=education.youth_perc_attending stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-education-youth_education_attending_by_age" data-stat-type="scaled-percentage" data-chart-title="Youth attendance at an educational institution by age"></div>
+            <div class="column-quarter" id="chart-histogram-education-youth_education_attending_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth attending an educational institution by gender"></div>
+        </section>
+    </div>
+</article>
+
+<article id="economic_opportunities" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth economic opportunities</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#employment_status" id="employment_status">Youth employment status<i class="fa fa-link"></i></a></h2>
+            <aside class="multi-line-header">
+                <p>* According to the official definition, a person is unemployed if he or she is (a) without work, (b) available to work, and (c) actively seeking work. The expanded definition excludes criterion (c)</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economic_opportunities.youth_official_unemployment stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-third" id="chart-histogram-economic_opportunities-youth_unemployment_by_definition" data-stat-type="scaled-percentage" data-chart-title="Youth unemployment rate by definition"></div>
+            <div class="column-third" id="chart-pie-economic_opportunities-youth_employment_status" data-stat-type="percentage" data-chart-title="Youth by employment status"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#emp_edu_train_status" id="emp_edu_train_status">Employment, education and training status<i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economic_opportunities.youth_neet stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-third" id="chart-pie-economic_opportunities-youth_emp_edu_train_status" data-stat-type="percentage" data-chart-title="Youth by employment, education and training status"></div>
+            <div class="column-third" id="chart-histogram-economic_opportunities-youth_neet_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth not in employment, education or training by gender"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#household_employment" id="household_employment">Household adult employment<i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economic_opportunities.youth_no_working_adults stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-third" id="chart-pie-economic_opportunities-youth_household_employment" data-stat-type="percentage" data-chart-title="Youth in households by adult employment"></div>
+        </section>
+    </div>
+</article>
+
+<article id="living_environment" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth family and living environment</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#basic-services" id="basic-services">Basic services<i class="fa fa-link"></i></a></h2>
+            <div class="column-third" id="chart-pie-living_environment-youth_electricity_access" data-stat-type="percentage" data-chart-title="Youth in households by electricity usage"></div>
+            <div class="column-third" id="chart-pie-living_environment-youth_toilet_access" data-stat-type="percentage" data-chart-title="Youth in households by type of toilet"></div>
+            <div class="column-third" id="chart-pie-living_environment-youth_water_access" data-stat-type="percentage" data-chart-title="Youth in households by distance to piped water"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#dwelling" id="dwelling">Type of dwelling<i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=living_environment.youth_dwelling_informal stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-living_environment-youth_dwelling_type" data-stat-type="scaled-percentage" data-chart-title="Youth in households by type of dwelling"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#overcrowding" id="overcrowding">Overcrowding<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* A household is defined as overcrowded if there are more than 2 persons per habitable room (excluding kitchens, bathrooms, store rooms, etc.)</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=living_environment.youth_households_overcrowded stat_type='percentage' stat_note='true'  decimals='-1'%}
+            </div>
+            <div class="column-third" id="chart-pie-living_environment-youth_household_crowded" data-stat-type="percentage" data-chart-title="Youth in households by overcrowding"></div>
+        </section>
+    </div>
+</article>
+<article id="living_environment" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth poverty</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#income-poverty" id="income-poverty">Income poverty<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* Stats SA’s 2015 upper-bound poverty line of R779 per person per month in 2011 prices is used to define income poverty</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=living_environment.youth_income_poor stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-third" id="chart-pie-living_environment-youth_income_poverty" data-stat-type="percentage" data-chart-title="Youth in households by income poverty status"></div>
+            <div class="column-third" id="chart-histogram-living_environment-youth_income_poor_by_gender" data-stat-type="scaled-percentage" data-chart-title="Youth in income-poor households by gender"></div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <div class="column-third">&nbsp;</div>
+            <div class="column-half" id="chart-histogram-living_environment-youth_income_poor_by_pop_group" data-stat-type="scaled-percentage" data-chart-title="Youth in income-poor households by race"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#multid-poor" id="multid-poor">Multidimensional poverty<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* See <a href="http://opensaldru.uct.ac.za/bitstream/handle/11090/818/2016_169_Saldruwp.pdf?sequence=3" target="_blank">here</a> for the definition of multidimensional youth poverty</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=living_environment.youth_multid_poor stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-third" id="chart-pie-living_environment-youth_multid_poverty" data-stat-type="percentage" data-chart-title="Youth by multidimensional poverty status"></div>
+            <div class="column-third" id="chart-histogram-living_environment-youth_multid_poor_by_gender" data-stat-type="scaled-percentage" data-chart-title="Multidimensionally poor youth by gender"></div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <div class="column-third">&nbsp;</div>
+            <div class="column-half" id="chart-histogram-living_environment-youth_multid_poor_by_pop_group" data-stat-type="scaled-percentage" data-chart-title="Multidimensionally poor youth by race"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#mpi-score" id="mpi-score">Youth Multidimensional Poverty Index (MPI)<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* See <a href="http://opensaldru.uct.ac.za/bitstream/handle/11090/818/2016_169_Saldruwp.pdf?sequence=3" target="_blank">here</a> for details on the design and methodology of the Youth Multidimensional Poverty Index</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=living_environment.youth_mpi_score_stat stat_type='number' decimals="-3" %}
+            </div>
+            <div class="column-quarter" id="chart-histogram-living_environment-youth_mpi_score" data-stat-type="number" data-decimal-places="3" data-chart-title="Youth MPI score (0-1)"></div>
+        </section>
+    </div>
+</article>
+
+<article id="identity_belonging_safety" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth identity, belonging and safety</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#crime_victims" id="crime_victims">Victims of contact crime<i class="fa fa-link"></i></a></h2>
+            <aside class="multi-line-header">
+                <p>* All crime statistics only cover crimes reported to the SAPS and refer to crimes reported in the year 2014-15, unless otherwise stated</p>
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=safety.youth_victims_per_10k_youth stat_type='number' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-safety-victims_by_age_group_per_10k_pop" data-stat-type="number" data-chart-title="Victims of crime by age group" data-qualifier="rate per 10,000 population in each age group"></div>
+            <div class="column-quarter" id="chart-histogram-safety-youth_victims_by_gender_per_10k" data-stat-type="number" data-chart-title="Youth victims of contact crime by gender" data-qualifier="rate per 10,000 youth"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <aside class="multi-line-header">
+                <p>** Contact crimes = murder + total sexual crimes + attempted murder + assault with the intent to inflict grievous bodily harm + common assault +common robbery + robbery with aggravating circumstance</p>
+            </aside>
+            <div class="column-two-thirds" id="chart-histogram-safety-youth_victims_by_offence_per_10k_youth" data-stat-type="number" data-chart-title="Youth victims of contact crime by offence type" data-qualifier="rate per 10,000 youth"></div>
+            <div class="column-third" id="chart-histogram-safety-youth_victims_by_pop_group_per_10k" data-stat-type="number" data-chart-title="Youth victims of contact crime by race" data-qualifier="rate per 10,000 youth"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <div class="column-three-quarters" id="chart-histogram-safety-youth_victims_by_year" data-stat-type="number" data-chart-title="Number of youth victims of contact crime by year"></div>
+        </section>
+    </div>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#crime_accused" id="crime_accused">Accused of contact crime<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=safety.youth_accused_per_10k_youth stat_type='number' decimals='-1' %}
+            </div>
+            <div class="column-half" id="chart-histogram-safety-accused_by_age_group_per_10k_pop" data-stat-type="number" data-chart-title="Persons accused of contact crime by age group" data-qualifier="rate per 10,000 population in each age group"></div>
+            <div class="column-quarter" id="chart-histogram-safety-youth_accused_by_gender_per_10k" data-stat-type="number" data-chart-title="Youth accused of contact crime by gender" data-qualifier="rate per 10,000 youth"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <div class="column-two-thirds" id="chart-histogram-safety-youth_accused_by_offence_per_10k_youth" data-stat-type="number" data-chart-title="Youth accused of contact crime by offence type" data-qualifier="rate per 10,000 youth"></div>
+            <div class="column-third" id="chart-histogram-safety-youth_accused_by_pop_group_per_10k" data-stat-type="number" data-chart-title="Youth accused of contact crime by race" data-qualifier="rate per 10,000 youth"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <div class="column-three-quarters" id="chart-histogram-safety-youth_accused_by_year" data-stat-type="number" data-chart-title="Number of youth accused of contact crime by year"></div>
+        </section>
+    </div>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#contact_crimes" id="contact_crimes">Contact crime in area<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=safety.contact_crimes_per_10k_pop stat_type='number' decimals='-1' %}
+            </div>
+            <div class="column-three-quarters" id="chart-histogram-safety-contact_crimes_by_year" data-stat-type="number" data-chart-title="Number of contact crimes by year" data-qualifier="Contact crimes = murder + total sexual crimes + attempted murder + assault with the intent to inflict grievous bodily harm + common assault +common robbery + robbery with aggravating circumstances"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#property_crimes" id="property_crimes">Property-related crime in area<i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=safety.property_crimes_per_10k_pop stat_type='number' decimals='-1' %}
+            </div>
+            <div class="column-three-quarters" id="chart-histogram-safety-property_crimes_by_year" data-stat-type="number" data-chart-title="Number of property-related crimes by year" data-qualifier="Property-related crimes = burglary at non-residential premises + burglary at residential premises + theft of motor vehicle and motorcycle + theft out of or from motor vehicle + stock-theft"></div>
+        </section>
+    </div>
+</article>
+
+<article id="health" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth health and wellness</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#health" id="health">General health and functioning<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* This includes youth with both mild and severe difficulties</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=health.youth_difficulty_seeing stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-health-youth_difficulty_by_function" data-stat-type="scaled-percentage" data-chart-title="Youth experiencing difficulty in functioning by type *"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#teenage-pregnancy" id="teenage-pregnancy">Teenage pregnancy<i class="fa fa-link"></i></a></h2>
+            <aside>
+                <p>* Pregnancy and delivery rates only cover deliveries and termination of pregnancies done in a healthcare facility</p>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=health.youth_preganacy_rate stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-health-youth_pregnancy_rate_by_year" data-stat-type="scaled-percentage" data-chart-title="Teenage pregnancy rate by year" data-qualifier="rate = deliveries and termination of pregnancies to females under 18 years as a percentage of total deliveries and termination of pregnancies done in a healthcare facility" data-decimal-places="2"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#teenage-delivery" id="teenage-delivery">Teenage delivery<i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=health.youth_delivery_rate stat_type='percentage' decimals='-1' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-health-youth_delivery_rate_by_year" data-stat-type="scaled-percentage" data-chart-title="Teenage delivery rate by year" data-qualifier="rate = deliveries to females under 18 years as a percentage of total deliveries" data-decimal-places="2"></div>
+        </section>
+    </div>
+</article>
+
+{% endblock %}

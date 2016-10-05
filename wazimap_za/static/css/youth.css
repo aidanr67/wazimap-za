@@ -1,0 +1,10 @@
+.footer-logos img {
+    height: 50px;
+    margin: 10px 5% 10px 0px;
+    vertical-align: baseline;
+}
+
+aside.multi-line-header {
+  padding-top: 1.2em;
+}
+
