@@ -3,5 +3,9 @@ gevent==1.0.1
 greenlet==0.4.6
 gunicorn==18.0
 newrelic==2.40.0.34
+<<<<<<< HEAD
 wazimap==0.5.1
+=======
+wazimap==0.5.2
+>>>>>>> 1177f9856fec78c62e65becb4ca532b20a013c2d
 wazimap-mapit==0.5.4
